@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VÖLUND — Forged Timepieces</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f2eb;
+      --white: #faf9f6;
+      --black: #0e0d0b;
+      --charcoal: #2a2825;
+      --bronze: #a0722a;
+      --bronze-light: #c49a4a;
+      --bronze-pale: #e8d5a3;
+      --gray: #9a9690;
+      --line: #d8d2c4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 60px;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(245, 242, 235, 0.96);
+      padding: 18px 60px;
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--bronze); }
+    .nav-links {
+      display: flex;
+      gap: 42px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--bronze);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--bronze); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160,114,42,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .vegvisir-bg {
+      position: absolute;
+      right: -60px; bottom: -60px;
+      width: 400px; height: 400px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: fadeUp 1.2s ease forwards 0.3s;
+    }
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 36px;
+    }
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.06em;
+      color: var(--black);
+    }
+    .hero-rule {
+      width: 72px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--bronze), transparent);
+      margin: 32px auto;
+    }
+    .hero-subtitle {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-style: italic;
+      color: var(--gray);
+      letter-spacing: 0.04em;
+      max-width: 460px;
+      margin: 0 auto 52px;
+    }
+    .hero-cta {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      padding: 16px 44px;
+      text-decoration: none;
+      border: 1px solid var(--black);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .hero-cta:hover {
+      background: var(--bronze);
+      border-color: var(--bronze);
+    }
+
+    /* ── SHARED ── */
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 18px;
+      display: block;
+    }
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.7rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 22px;
+    }
+    .divider {
+      width: 44px; height: 1px;
+      background: var(--bronze);
+      margin-bottom: 40px;
+    }
+    section { padding: 120px 60px; }
+
+    /* ── COLLECTIONS ── */
+    #collections { background: var(--white); }
+    .collections-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .collections-header .divider { margin: 0 auto; }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .collection-card {
+      background: var(--cream);
+      overflow: hidden;
+    }
+    .card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #1c1a17 0%, #2e2b26 60%, #3a3530 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.6s ease;
+    }
+    .collection-card:hover .card-img { transform: scale(1.03); }
+    .card-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 40% 35%, rgba(160,114,42,0.14), transparent 60%);
+    }
+    .watch-silhouette {
+      width: 96px; height: 136px;
+      border: 1px solid rgba(160,114,42,0.35);
+      border-radius: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .watch-silhouette::before {
+      content: '';
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 1px solid rgba(160,114,42,0.4);
+      position: absolute;
+    }
+    .watch-silhouette::after {
+      content: '';
+      width: 1.5px; height: 26px;
+      background: rgba(160,114,42,0.55);
+      position: absolute;
+      top: 22px;
+    }
+    .card-img-tag {
+      position: absolute;
+      bottom: 20px; right: 20px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      color: rgba(160,114,42,0.45);
+      text-transform: uppercase;
+    }
+    .card-body {
+      padding: 30px 30px 38px;
+      border-top: 1px solid var(--line);
+    }
+    .card-collection {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 8px;
+    }
+    .card-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+    .card-desc {
+      font-size: 0.93rem;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+    .card-price {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--charcoal);
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .about-left {
+      position: sticky;
+      top: 120px;
+    }
+    .about-visual {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--white);
+    }
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border: 1px solid var(--bronze-pale);
+    }
+    .vegvisir-sm {
+      width: 190px; height: 190px;
+      opacity: 0.28;
+    }
+    .about-caption {
+      margin-top: 18px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-align: center;
+    }
+    .about-right p {
+      margin-bottom: 22px;
+      color: var(--charcoal);
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+    .about-right p.lead {
+      font-size: 1.18rem;
+      font-style: italic;
+      color: var(--black);
+    }
+    .about-right blockquote {
+      border-left: 2px solid var(--bronze);
+      padding-left: 28px;
+      margin: 36px 0;
+      font-style: italic;
+      font-size: 1.12rem;
+      color: var(--charcoal);
+      line-height: 1.8;
+    }
+    .pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 44px;
+    }
+    .pillar {
+      background: var(--white);
+      padding: 26px 22px;
+      border: 1px solid var(--line);
+    }
+    .pillar-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--bronze);
+      margin-bottom: 8px;
+    }
+    .pillar-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      margin-bottom: 7px;
+    }
+    .pillar-text {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ── SHOP ── */
+    #shop {
+      background: var(--black);
+      color: var(--cream);
+    }
+    #shop .section-title { color: var(--cream); }
+    .shop-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .shop-header .section-label { color: var(--bronze-light); }
+    .shop-header .divider { margin: 0 auto; }
+    .shop-header p {
+      color: var(--gray);
+      font-style: italic;
+      font-size: 1.02rem;
+      max-width: 500px;
+      margin: 24px auto 0;
+    }
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 1200px;
+      margin: 0 auto 72px;
+    }
+    .shop-item {
+      background: #111009;
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #222019;
+      transition: border-color 0.3s;
+    }
+    .shop-item:hover { border-color: var(--bronze); }
+    .shop-img {
+      width: 100%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #1a1814, #272420);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .shop-img::after {
+      content: 'COMING SOON';
+      font-family: 'Cinzel', serif;
+      font-size: 0.48rem;
+      letter-spacing: 0.2em;
+      color: #302e2a;
+      position: absolute;
+      bottom: 14px; right: 14px;
+    }
+    .shop-ring {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      border: 1px solid rgba(160,114,42,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shop-ring::before {
+      content: '';
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      border: 1px solid rgba(160,114,42,0.12);
+    }
+    .shop-collection {
+      font-family: 'Cinzel', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 7px;
+    }
+    .shop-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.35rem;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .shop-desc {
+      font-size: 0.9rem;
+      color: #5e5c58;
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 26px;
+    }
+    .shop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .shop-price {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+    }
+    .shop-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      border: 1px solid var(--bronze);
+      padding: 5px 11px;
+    }
+    .inquiry-cta {
+      display: block;
+      max-width: 320px;
+      margin: 0 auto;
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--bronze-light);
+      padding: 17px 44px;
+      text-decoration: none;
+      border: 1px solid var(--bronze-light);
+      transition: background 0.3s, color 0.3s;
+    }
+    .inquiry-cta:hover {
+      background: transparent;
+      color: var(--bronze-light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid #1c1a17;
+      padding: 64px 60px 40px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 56px;
+    }
+    .footer-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+    .footer-logo span { color: var(--bronze); }
+    .footer-tagline {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: #4a4844;
+      line-height: 1.65;
+    }
+    .footer-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .footer-links a {
+      font-size: 0.9rem;
+      color: #4e4c48;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--bronze-light); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 28px;
+      border-top: 1px solid #1c1a17;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333129;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 22px 28px; }
+      nav.scrolled { padding: 14px 28px; }
+      section { padding: 80px 28px; }
+      .collections-grid { grid-template-columns: 1fr; max-width: 480px; }
+      .shop-grid { grid-template-columns: 1fr; max-width: 480px; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .about-left { position: static; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero-title { font-size: 3rem; }
+      .pillars { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#home" class="nav-logo">VÖL<span>U</span>ND</a>
+    <ul class="nav-links">
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#shop">Shop</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-glow"></div>
+    <svg class="vegvisir-bg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" stroke="#a0722a" stroke-width="0.6"/>
+      <circle cx="100" cy="100" r="68" stroke="#a0722a" stroke-width="0.6"/>
+      <circle cx="100" cy="100" r="12" stroke="#a0722a" stroke-width="0.6"/>
+      <line x1="100" y1="10" x2="100" y2="190" stroke="#a0722a" stroke-width="0.6"/>
+      <line x1="10" y1="100" x2="190" y2="100" stroke="#a0722a" stroke-width="0.6"/>
+      <line x1="28" y1="28" x2="172" y2="172" stroke="#a0722a" stroke-width="0.6"/>
+      <line x1="172" y1="28" x2="28" y2="172" stroke="#a0722a" stroke-width="0.6"/>
+      <polygon points="100,10 95,28 105,28" fill="#a0722a"/>
+      <polygon points="100,190 95,172 105,172" fill="#a0722a"/>
+      <polygon points="10,100 28,95 28,105" fill="#a0722a"/>
+      <polygon points="190,100 172,95 172,105" fill="#a0722a"/>
+      <polygon points="28,28 40,44 44,40" fill="#a0722a"/>
+      <polygon points="172,172 160,156 156,160" fill="#a0722a"/>
+      <polygon points="172,28 156,40 160,44" fill="#a0722a"/>
+      <polygon points="28,172 44,160 40,156" fill="#a0722a"/>
+    </svg>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Handcrafted in Canada &mdash; Est. 2025</p>
+      <h1 class="hero-title">VÖLUND</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-subtitle">Forged timepieces. Each one a singular act of craft.</p>
+      <a href="#collections" class="hero-cta">Explore the Collections</a>
+    </div>
+  </section>
+
+  <!-- COLLECTIONS -->
+  <section id="collections">
+    <div class="collections-header reveal">
+      <span class="section-label">The Work</span>
+      <h2 class="section-title">Collections</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="collections-grid">
+      <div class="collection-card reveal">
+        <div class="card-img">
+          <div class="watch-silhouette"></div>
+          <span class="card-img-tag">Photo coming soon</span>
+        </div>
+        <div class="card-body">
+          <p class="card-collection">Collection I</p>
+          <h3 class="card-name">Svartalfheim</h3>
+          <p class="card-desc">Dark, bold, forge-inspired. Named for the realm of the dwarven smiths — those who worked in fire and shadow to produce objects of impossible beauty. Black textured dials, gold fluted bezels, integrated steel bracelets.</p>
+          <p class="card-price">From $450 CAD</p>
+        </div>
+      </div>
+      <div class="collection-card reveal">
+        <div class="card-img">
+          <div class="watch-silhouette"></div>
+          <span class="card-img-tag">Photo coming soon</span>
+        </div>
+        <div class="card-body">
+          <p class="card-collection">Svartalfheim — Ref. 001</p>
+          <h3 class="card-name">Sindri</h3>
+          <p class="card-desc">The first piece. A black textured dial with gold fluted bezel and integrated steel bracelet — drawing from the lineage of vintage Rolex and the Tissot PRX. Worn first by the maker. Built to endure.</p>
+          <p class="card-price">$650 CAD</p>
+        </div>
+      </div>
+      <div class="collection-card reveal">
+        <div class="card-img">
+          <div class="watch-silhouette"></div>
+          <span class="card-img-tag">Photo coming soon</span>
+        </div>
+        <div class="card-body">
+          <p class="card-collection">Collection II — Forthcoming</p>
+          <h3 class="card-name">The White Series</h3>
+          <p class="card-desc">Cold stone. Matte white textured dials with brass applied indices. Grand Seiko precision filtered through Norse mythology. A silence that commands the wrist. Name to be revealed.</p>
+          <p class="card-price">From $500 CAD</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-left reveal">
+        <div class="about-visual">
+          <svg class="vegvisir-sm" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="88" stroke="#a0722a" stroke-width="0.8"/>
+            <circle cx="100" cy="100" r="66" stroke="#a0722a" stroke-width="0.8"/>
+            <circle cx="100" cy="100" r="13" stroke="#a0722a" stroke-width="0.8"/>
+            <line x1="100" y1="12" x2="100" y2="188" stroke="#a0722a" stroke-width="0.8"/>
+            <line x1="12" y1="100" x2="188" y2="100" stroke="#a0722a" stroke-width="0.8"/>
+            <line x1="29" y1="29" x2="171" y2="171" stroke="#a0722a" stroke-width="0.8"/>
+            <line x1="171" y1="29" x2="29" y2="171" stroke="#a0722a" stroke-width="0.8"/>
+            <polygon points="100,12 95,30 105,30" fill="#a0722a"/>
+            <polygon points="100,188 95,170 105,170" fill="#a0722a"/>
+            <polygon points="12,100 30,95 30,105" fill="#a0722a"/>
+            <polygon points="188,100 170,95 170,105" fill="#a0722a"/>
+            <polygon points="29,29 41,45 45,41" fill="#a0722a"/>
+            <polygon points="171,171 159,155 155,159" fill="#a0722a"/>
+            <polygon points="171,29 155,41 159,45" fill="#a0722a"/>
+            <polygon points="29,171 45,159 41,155" fill="#a0722a"/>
+          </svg>
+        </div>
+        <p class="about-caption">Vegvísir — The Wayfinder</p>
+      </div>
+      <div class="about-right reveal">
+        <span class="section-label">The Story</span>
+        <h2 class="section-title">About Völund</h2>
+        <div class="divider"></div>
+        <p class="lead">In the old Norse stories, Völund was the greatest craftsman who ever lived — a smith of supernatural skill, called the Prince of Elves.</p>
+        <p>He was captured. Hamstrung. Imprisoned on a remote island and forced to forge treasures for a king who wanted his gifts but feared his freedom. And yet he endured — working in silence, refining his craft, waiting. When he finally escaped, he flew. What he left behind were objects that outlasted everything.</p>
+        <blockquote>True skill cannot be enslaved.<br/>It can only be borrowed from the person who holds it.</blockquote>
+        <p>Völund Watches is built on that idea. Each piece is a Seiko-based modification with an original custom dial — designed from scratch, assembled by hand, built to be worn for decades. No mass production. No catalogue copies. Every watch is a singular object.</p>
+        <p>We are based in Canada. We work in small batches, ship when pieces are ready, and take no custom orders without a deposit. The craft comes first. The timeline follows the work.</p>
+        <div class="pillars">
+          <div class="pillar">
+            <p class="pillar-num">01</p>
+            <p class="pillar-title">Original Dials</p>
+            <p class="pillar-text">Every dial is designed in-house and produced through precision manufacturing partners.</p>
+          </div>
+          <div class="pillar">
+            <p class="pillar-num">02</p>
+            <p class="pillar-title">Seiko Foundation</p>
+            <p class="pillar-text">Built on proven Japanese movements — reliable, serviceable, refined by decades of engineering.</p>
+          </div>
+          <div class="pillar">
+            <p class="pillar-num">03</p>
+            <p class="pillar-title">Ready to Ship</p>
+            <p class="pillar-text">No waiting on builds. Pieces are completed before they are listed.</p>
+          </div>
+          <div class="pillar">
+            <p class="pillar-num">04</p>
+            <p class="pillar-title">$450 – $700</p>
+            <p class="pillar-text">Premium craft at an honest price. Not entry level. Not luxury tier. Exactly where it should be.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop">
+    <div class="shop-header reveal">
+      <span class="section-label">Acquire</span>
+      <h2 class="section-title">Available Pieces</h2>
+      <div class="divider"></div>
+      <p>Each piece is built before it is listed. When it is gone, it is gone. Inquire below to reserve or ask a question.</p>
+    </div>
+    <div class="shop-grid">
+      <div class="shop-item reveal">
+        <div class="shop-img"><div class="shop-ring"></div></div>
+        <p class="shop-collection">Svartalfheim — Ref. 001</p>
+        <h3 class="shop-name">Sindri</h3>
+        <p class="shop-desc">Black textured dial. Gold fluted bezel. Integrated steel bracelet. Seiko NH35 movement. The founding piece of the brand — worn first by the maker.</p>
+        <div class="shop-footer">
+          <span class="shop-price">$650 CAD</span>
+          <span class="shop-badge">Coming Soon</span>
+        </div>
+      </div>
+      <div class="shop-item reveal">
+        <div class="shop-img"><div class="shop-ring"></div></div>
+        <p class="shop-collection">Collection II</p>
+        <h3 class="shop-name">The White Series</h3>
+        <p class="shop-desc">Matte white textured dial. Brass applied indices. Cold stone aesthetic. Grand Seiko case silhouette. Name and reference to be announced.</p>
+        <div class="shop-footer">
+          <span class="shop-price">From $500 CAD</span>
+          <span class="shop-badge">In Development</span>
+        </div>
+      </div>
+      <div class="shop-item reveal">
+        <div class="shop-img"><div class="shop-ring"></div></div>
+        <p class="shop-collection">Future Releases</p>
+        <h3 class="shop-name">Stay Informed</h3>
+        <p class="shop-desc">New pieces are announced without warning and sell without fanfare. Send an inquiry to be notified when new builds become available.</p>
+        <div class="shop-footer">
+          <span class="shop-price">&mdash;</span>
+          <span class="shop-badge">Notify Me</span>
+        </div>
+      </div>
+    </div>
+    <a href="mailto:volundwatches@gmail.com" class="inquiry-cta reveal">Send an Inquiry</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-logo">VÖL<span>U</span>ND</p>
+        <p class="footer-tagline">Forged timepieces.<br/>Handcrafted in Canada.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Navigate</p>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#shop">Shop</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Contact</p>
+        <ul class="footer-links">
+          <li><a href="mailto:volundwatches@gmail.com">volundwatches@gmail.com</a></li>
+          <li><a href="https://instagram.com/volundwatches" target="_blank">@volundwatches</a></li>
+          <li><a href="https://www.etsy.com/shop/volundwatches" target="_blank">Etsy Shop</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Völund Watches &mdash; Canada</span>
+      <span>Forged. Not Found.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
